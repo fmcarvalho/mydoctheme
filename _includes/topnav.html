@@ -19,6 +19,10 @@
 {% assign topnav = site.data[page.topnav] %}
 {% assign topnav_dropdowns = site.data[page.topnav].topnav_dropdowns %}
 
+                {% if site.feedback_disable == null or site.feedback_disable == false %}
+                    {% include feedback.html %}
+                {% endif %}
+
                 {% for entry in topnav.topnav %}
                 {% for item in entry.items %}
                 {% if item.external_url %}
@@ -30,6 +34,7 @@
                 {% endif %}
                 {% endfor %}
                 {% endfor %}
+
                 <!-- entries with drop-downs appear here -->
                 <!-- conditional logic to control which topnav appears for the audience defined in the configuration file.-->
                 {% for entry in topnav_dropdowns %}
@@ -50,9 +55,10 @@
                 </li>
                 {% endfor %}
                 {% endfor %}
-                {% if site.feedback_disable == null or site.feedback_disable == false %}
-                    {% include feedback.html %}
-                {% endif %}
+
+                <!-- Link for feed xml -->
+                <li><a href="feed.xml"><img src="images/feed.png" width="27px"></a></li>
+
                 <!--comment out this block if you want to hide search-->
                 <li>
                     <!--start search-->
