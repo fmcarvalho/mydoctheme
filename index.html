@@ -1,0 +1,110 @@
+---
+title: "Index"
+keywords: sample
+sidebar: htmlflow_sidebar
+permalink: index.html
+---
+
+<h3>
+    Java DSL for HTML
+</h3>
+<p>
+    HtmlFlow is a Java HTML builder to write typesafe HTML documents in a fluent style.
+    Use one of its <code>view()</code> factory methods to get started with HtmlFlow,
+    such as the following sample, which produces the HTML on the right side.
+    Use the utility <code>Flowifier.fromHtml(html)</code> to get the HtmlFlow definition from the
+    corresponding HTML source code (<a href="https://github.com/xmlet/HtmlFlow/blob/master/src/main/java/htmlflow/flowifier/Flowifier.java"><code>Flowifier</code></a>
+    since the release 3.4).
+</p>
+
+
+<p>&nbsp;</p>
+<div class="row">
+<div class="col-md-7">
+
+{% highlight java %}
+HtmlFlow
+  .doc(System.out)
+    .html() // HtmlPage
+      .head()
+        .title().text("HtmlFlow").__()
+      .__() // head
+      .body()
+        .div().attrClass("container")
+          .h1().text("My first HtmlFlow page").__()
+          .img().attrSrc("http://bit.ly/2MoHwrU").__()
+          .p().text("Typesafe is awesome! :-)").__()
+        .__() // div
+      .__() // body
+    .__(); // html
+{% endhighlight %}
+
+</div>
+<div class="col-md-5">
+
+<em>output</em>&nbsp &#8628
+
+{% highlight html %}
+<html>
+  <head>
+    <title>HtmlFlow</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>My first HtmlFlow page</h1>
+      <img src="http://bit.ly/2MoHwrU">
+      <p>Typesafe is awesome! :-)</p>
+    </div>
+  </body>
+</html>
+{% endhighlight %}
+
+&#8598 &nbsp<code>Flowifier.fromHtml("...")</code>
+
+</div>
+</div>
+
+<p>&nbsp</p>
+<p>
+HtmlFlow is the <strong>most performant</strong> engine among state of the art template
+engines like Velocity, Thymleaf, Mustache, etc and also other DSL libraries for HTML.
+Check out the performance results in our forks of the most popular benchmarks at
+<a href=https://github.com/xmlet/template-benchmark>xmlet/template-benchmark</a>
+and <a href=https://github.com/xmlet/spring-comparing-template-engines>xmlet/spring-comparing-template-engines</a>.
+</p>
+
+<h3>
+    References
+</h3>
+
+<ul>
+  <li>
+    2020, 
+    <a href="https://link.springer.com/chapter/10.1007/978-3-030-61750-9_4" target="blank">Text Web Templates Considered Harmful</a>,
+    Part of the Lecture Notes in Business Information Processing book series
+    (LNBIP, volume 399). This paper shows how a DSL for HTML (such as HtmlFlow
+    or Kotlinx.Html) provides unopinionated web templates with boundless
+    resolving features only ruled by the host programming language (such as
+    Java, Kotlin or JavaScript).
+  </li>
+  <li>
+    2019, 
+    <a href="https://scholar.google.com/scholar?cluster=972807510162637933" target="blank">HoT: Unleash Web Views with Higher-order Templates</a>,
+    <a href="http://www.webist.org/?y=2019" target="blank">15th WebIst</a>
+    conference, 2019, Viena - This paper highlights the compositional nature
+    of HtmlFlow to compose templates through higher-order functions.
+  </li>
+  <li>
+    2018,
+    <a href="https://www.slideshare.net/LuisDuarte105/domain-specific-language-generation-based-on-a-xml-schema-208756986" target="blank">
+      Domain Specific Language generation based on a XML Schema
+    </a> - Slides of the MsC thesis presentation of Luís Duarte.
+  </li>
+  <li>
+    2018,
+    <a href="https://dzone.com/articles/modern-type-safe-template-engines" target="blank">
+      Modern Type-Safe Template Engines
+    </a> - You can find more details in this DZone article about performance comparison.
+  </li>
+</ul>
+<p>&nbsp</p>
