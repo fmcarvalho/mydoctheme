@@ -1,0 +1,49 @@
+# HtmlFlow sidebar
+
+entries:
+- title: sidebar
+  product: Jekyll Doc Theme
+  version: 6.0
+  folders:
+
+  - title: Overview
+    output: web, pdf
+    folderitems:
+
+    - title: Index
+      url: /index.html
+      output: web, pdf
+      type: homepage
+
+
+    - title: Java DSL for HTML
+      url: index#java-dsl-for-html
+      output: web, pdf
+
+    - title: References
+      url: index#references
+      output: web, pdf
+
+  - title: Installation
+    output: web, pdf
+    url: /install.html
+
+  - title: Features
+    output: web, pdf
+    folderitems:
+
+    - title: Getting started
+      url: features#getting-started
+      output: web, pdf
+
+    - title: Output approaches
+      url: features#output-approaches
+      output: web, pdf
+
+    - title: Dynamic views
+      url: features#dynamic-views
+      output: web, pdf
+    
+    - title: Partial and Layout
+      url: features#partial-and-layout
+      output: web, pdf
