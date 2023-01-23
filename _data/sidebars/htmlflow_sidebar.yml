@@ -26,7 +26,7 @@ entries:
 
   - title: Installation
     output: web, pdf
-    url: /install.html
+    url: install
 
   - title: Features
     output: web, pdf
