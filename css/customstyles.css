@@ -719,6 +719,13 @@ ol.series li {
 #mysidebar .nav ul {
     background-color: #FAFAFA;
 }
+
+#mysidebar {
+    position: fixed;
+    right: 0;
+    left: 0;
+}
+
 .nav ul.series li {
     list-style: decimal;
     font-size:12px;
@@ -852,12 +859,6 @@ span.soft {
 @media (max-width: 767px) {
     .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
         color: #444;
-    }
-}
-
-@media (max-width: 990px) {
-    #mysidebar {
-        position: relative;
     }
 }
 
