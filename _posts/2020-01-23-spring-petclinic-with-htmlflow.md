@@ -4,7 +4,10 @@ published: true
 tags: []
 author: Miguel Gamboa
 permalink: 2020-01-23-spring-petclinic-with-htmlflow.html
-summary: "Code coverage. Sonar and Issue 14."  
+summary: >
+    spring-petclinic implementation of the sample Spring-based pet clinic web application 
+    integrated with HtmlFlow views.
+    Replaced the Thymeleaf template engine with HtmlFlow.
 ---
 
 We have provided in [github.com/xmlet/spring-petclinic](https://github.com/xmlet/spring-petclinic)
