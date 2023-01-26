@@ -47,3 +47,23 @@ entries:
     - title: Partial and Layout
       url: features#partial-and-layout
       output: web, pdf
+
+  - title: Version 3.x
+    output: web, pdf
+    folderitems:
+
+    - title: Getting started
+      url: features_version3#getting-started
+      output: web, pdf
+
+    - title: Output approaches
+      url: features_version3#output-approaches
+      output: web, pdf
+
+    - title: Dynamic views
+      url: features_version3#dynamic-views
+      output: web, pdf
+    
+    - title: Partial and Layout
+      url: features_version3#partial-and-layout
+      output: web, pdf
