@@ -5,7 +5,7 @@ sidebar: htmlflow_sidebar
 permalink: features_version3
 ---
 
-### Getting started
+## Getting started
 
 All methods (such as `body()`, `div()`, `p()`, etc) return the created element,
 except `text()` which returns its parent element (e.g. `.h1().text("...")` returns
@@ -31,7 +31,7 @@ the set of accepted values.
 Finally, HtmlFlow also supports [_dynamic views_](#dynamic-views) with *data binders* that enable
 the same HTML view to be bound with different object models.
 
-### Output approaches
+## Output approaches
 
 Consider the definition of the following view that is late rendered by the function
 passed to the `view()` method:
@@ -79,7 +79,7 @@ Regardless the output approach you will get the same formatted HTML document:
 &lt;/html>
 </code></pre>
 
-### Dynamic Views
+## Dynamic Views
 
 A _dynamic view_ is based on a template function `BiConsumer<DynamicHtml<U>, U>`, i.e.
 a `void` function that receives a dynamic view (`DynamicHtml<U>`) and a domain object of type `U` --
@@ -181,7 +181,7 @@ public class App {
 }
 </code></pre>
 
-### Partial and Layout
+## Partial and Layout
 
 HtmlFlow also enables the use of partial HTML blocks inside a template function.
 This is useful whenever you want to reuse the same template with different HTML fragments.

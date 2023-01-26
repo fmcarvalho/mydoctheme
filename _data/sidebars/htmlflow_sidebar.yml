@@ -60,6 +60,10 @@ entries:
     output: web
     folderitems:
 
+    - title: Features
+      url: /features_version3
+      output: web
+
     - title: Getting started
       url: features_version3#getting-started
       output: web
