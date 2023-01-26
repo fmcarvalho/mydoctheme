@@ -1,18 +1,18 @@
-repository: tomjoht/documentation-theme-jekyll
+repository: xmlet/HtmlFlow
 
 output: web
 # this property is useful for conditional filtering of content that is separate from the PDF.
 
-topnav_title: Jekyll Documentation Theme
+topnav_title: HtmlFlow
 # this appears on the top navigation bar next to the home button
 
-site_title: Jekyll theme for documentation
+site_title: HtmlFlow
 # this appears in the html browser tab for the site title (seen mostly by search engines, not users)
 
-company_name: Copyright 2021 Google LLC
+company_name: HtmlFlow
 # this appears in the footer
 
-google_analytics: UA-66296557-1
+google_analytics: UA-83784798-1
 # if you have google-analytics ID, put it in. if not, edit this value to blank.
 
 host: 127.0.0.1
@@ -27,9 +27,9 @@ exclude:
   - vendor
 # these are the files and directories that jekyll will exclude from the build
 
-feedback_subject_line: Jekyll documentation theme
+feedback_subject_line: HtmlFlow
 
-# feedback_email: tomjoht@gmail.com
+# feedback_email: babalu@gmail.com
 # used as a contact email for the Feedback link in the top navigation bar
 
 # feedback_disable: true
@@ -96,7 +96,7 @@ defaults:
 sidebars:
 - htmlflow_sidebar
 
-description: "Intended as a documentation theme based on Jekyll for technical writers documenting software and other technical products, this theme has all the elements you would need to handle multiple products with both multi-level sidebar navigation, tags, and other documentation features."
+description: "HtmlFlow is a Java DSL to write typesafe HTML documents in a fluent style."
 # the description is used in the feed.xml file
 
 # needed for sitemap.xml file only
@@ -107,4 +107,4 @@ description: "Intended as a documentation theme based on Jekyll for technical wr
 github: [metadata]
 
 
-# Copyright 2021 Google LLC
+# HtmlFlow
