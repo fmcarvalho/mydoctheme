@@ -257,133 +257,120 @@ HtmlFlow _await_ feature works regardless the type of asynchronous model and can
 any kind of asynchronous API.
 
 
-## Partial and Layout
+## Layout and partial views (aka _fragments_)
 
-HtmlFlow also enables the use of partial HTML blocks inside a template function.
+HtmlFlow also enables the use of partial HTML blocks inside a template function, also know as _fragments_.
 This is useful whenever you want to reuse the same template with different HTML fragments.
 
-The partial is constructed just like any template. Consider the following, which create a template, for a div containing a label and an input.
+A fragment is constructed just like any template, that is a consumer of an HTML element.
+Whereas a view template receives an `HtmlPage` corresponding the root element, a fragment template 
+may receive any kind of HTML element.
+But, instead of a specific functional interface `HtmlTemlate` used for views, a fragment 
+is defined with the standard `Consumer<T>` where `T` is the type of the parent element.
+For example, a fragment for a footer may be defined by a `Consumer<Footer>`.
+
+The fragment template may receive additional arguments for auxiliary model objects (i.e. context objects).
+
+Consider the following example from [Spring Petclinic](https://github.com/xmlet/spring-petclinic),
+which creates a fragment for a `div` containing a `label` and an `input`.
 
 ```java
-public class InputField {
-  public static class LabelValueModel {
-        final String label;
-        final String id;
-        final Object value;
-
-        private LabelValueModel(String label, String id, Object value) {
-            this.label = label;
-            this.id = id;
-            this.value = value;
-        }
-
-        public static LabelValueModel of(String label, String id,  Object value) {
-            return new LabelValueModel(label, id, value);
-        }
-    }
-
-  public static HtmlView<LabelValueModel> view = DynamicHtml.view(InputField::template);
-
-  static void template(DynamicHtml<LabelValueModel> view, LabelValueModel model) {
-      view
-          .div()
-              .label()
-              .dynamic(label -> label.text(model.label)).__() //label
-
-              .input()
-                  .dynamic(input -> input
-                      .attrType(EnumTypeInputType.TEXT)
-                      .attrId(model.id)
-                      .attrName(model.id)
-                      .attrValue(model.value.toString())
-                  )
-              .__()
-          .__();
-  }
+static void partialInputField(Div<?> container, String label, String id, Object value) {
+    container
+        .div().attrClass("form-group")
+            .label()
+                .text(label)
+            .__() //label
+            .input()
+                .attrClass("form-control")
+                .attrType(EnumTypeInputType.TEXT)
+                .attrId(id)
+                .attrName(id)
+                .attrValue(value.toString())
+            .__() // input
+        .__(); // div
 }
 ```
-Notice that we also introduce a model that is dedicated to this partial.
-This will help us get data in the exact form needed to produce a complete, working and type-safe template.
 
 This partial could be used inside another template.
 
 ```java
-static void template(DynamicHtml<Pet> view, Pet pet) {
-    view
-      .div()
-        .form().attrMethod(EnumMethodType.POST)
-          .div().attrClass("form-group has-feedback")
-            .dynamic(div -> view.addPartial(InputField.view, InputField.LabelValueModel.of("Date", "date", LocalDate.now())))
-          .__() // div
-        .__() // form
-      .__() // div
-}
+static void ownerTemplate(Div<?> container) {
+    container
+        .h2()
+            .text("Owner")
+        .__() //h2
+        .form()
+            .attrMethod(EnumMethodType.POST)
+            .div().attrClass("form-group has-feedback")
+                .<Owner>dynamic((div, owner) -> partialInputField(div, "First Name", "firstName", owner.getFirstName()))
+                .<Owner>dynamic((div, owner) -> partialInputField(div, "Address", "address", owner.getAddress()))
+        ...
 ```
 
-This way of invoking partial is particularly useful when you need to use a smaller part (component) gathered together to produce a bigger template.
-This is the most common usage of partials.
+Notice, the function `ownerTemplate` is in turn another fragment that receives a `Div` element.
 
-There is another way of using partials, it's to construct a layout. The layout is a normal template, but with a hole to be filed with partials.
-Like we saw earlier, a partial has nothing special by itself. What is interesting is the layout, consider the following template.
+This way of invoking a fragment is particularly useful when you need to use a smaller part (component) gathered together to produce a bigger template.
+This is the most common usage of partials or fragments.
 
+There is another way of using fragments, it's to construct a _layout_. 
+The layout is a normal template, but with "_holes_" or placeholders, to be filled with fragments.
+These fragments are consumers (i.e. `Consumer<Element>`) received as arguments of the layout.
+
+The layout function may instantiate an `HtmlView` based on a template with closures over
+those fragments arguments.
+
+For example, the following layout uses an auxiliary `navbar` and `content` fragments to build the end view. 
 
 ```java
 public class Layout {
-
-    public static DynamicHtml<Object> view = (DynamicHtml<Object>) DynamicHtml.view(Layout::template).threadSafe();
-
-    private static <T> void template(DynamicHtml<T> view, T model, HtmlView[] partials) {
-        view
+    public static HtmlView view(Consumer<Nav> navbar, Consumer<Div> content) {
+        return HtmlFlow.view(page -> page
             .html()
                 .head()
-                    .meta().addAttr("http-equiv","Content-Type").attrContent("text/html; charset=UTF-8")
-                    .__() //meta
-                    .meta().attrCharset("utf-8")
-                    .__() //meta
-                    .meta().addAttr("http-equiv","X-UA-Compatible").attrContent("IE=edge")
-                    .__() //meta
-                    .meta().attrName("viewport").attrContent("width=device-width, initial-scale=1")
-                    .__() //meta
-                    .link().addAttr("rel","shortcut icon").addAttr("type","image/x-icon").attrHref("/resources/images/favicon.png")
-                    .__() //link
                     .title()
-                        .text("My awesome templating system")
+                        .text("PetClinic :: a Spring Framework demonstration")
                     .__() //title
+                    .link().attrRel(EnumRelType.STYLESHEET).attrHref("/resources/css/petclinic.css")
+                    .__() //link
                   .__() //head
                 .body()
-                    .nav().attrClass("navbar navbar-default").addAttr("role","navigation")
-                      ..dynamic(__ -> view.addPartial(partials[0]) )
+                    .nav()
+                        .of(navbar::accept)
                     .__() //nav
-                    .div().attrClass("container-fluid")
-                        .div().attrClass("container xd-container")
-                          .dynamic(__ ->  view.addPartial(partials[1], model) )
-                        .__() //div
+                    .div().attrClass("container xd-container")
+                        .of(content::accept)
                     .__() //div
                 .__() //body
-            .__(); //html
+            .__() //html
+        ); // return view
     }
 }
 ```
 
-Notice the third argument to the function `template`, this array of partials is the place where we receive the partials to fill the holes of our layout.
-To use them we called two distinct signatures of `view.addPartial`, one with only the partial, and one with a partial and a model. Depending on the type of
-templated hidden behind `partials[0]`` we would use one signature or the other.
+To chain the call of fragments fluently we take advantage of the auxiliary HtmlFlow builder `of()` that let us chain a consumer of the last created element.
+Notice `.of(navbar::accept)` is equivalent to write in Java `.of(nav -> navbar.accept(nav))`.
 
-So we have defined our layout, let's use it to create a template with much less clutter.
+Once define the layout and considering the previous example of the `ownerTemplate` we may build
+a owner's view with:
 
 ```java
-public class APage {
+public class OwnerView {
 
-    public static DynamicHtml<Object> view = (DynamicHtml<Object>) DynamicHtml.view(Layout::template, Object model, new DynamicHtml<Object>[]{Menu::template, APage::template]).threadSafe();
-
-    private static <T> void template(DynamicHtml<T> view, T model, HtmlView[] partials) {
-        view
-            .div().text("Type safety feel so cozy !!")
-    }
+    static final HtmlView view = Layout
+        .view(Navbar::navbarFragment, CreateOrUpdateOwnerForm::template);
+...
 }
 ```
 
-Notice the member `view` which call the layout's template, and passing the menu and the page component as an array.
+Given this view we may render it with a `Owner` object.
+For example, the `OwnerController` edit handler may be defined as:
 
-
-<p>&nbsp;</p>
+```java
+@GetMapping("/owners/{ownerId}/edit")
+@ResponseBody
+public String initUpdateOwnerForm(@PathVariable("ownerId") int ownerId) {
+    Owner owner = ownersRepository.findById(ownerId);
+    return OwnerView.view.render(owner);
+}
+```
