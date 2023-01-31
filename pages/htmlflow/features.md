@@ -296,16 +296,16 @@ This partial could be used inside another template.
 
 ```java
 static void ownerTemplate(Div<?> container) {
-    container
-        .h2()
-            .text("Owner")
-        .__() //h2
-        .form()
-            .attrMethod(EnumMethodType.POST)
-            .div().attrClass("form-group has-feedback")
-                .<Owner>dynamic((div, owner) -> partialInputField(div, "First Name", "firstName", owner.getFirstName()))
-                .<Owner>dynamic((div, owner) -> partialInputField(div, "Address", "address", owner.getAddress()))
-        ...
+  container
+    .h2()
+      .text("Owner")
+    .__() //h2
+    .form()
+      .attrMethod(EnumMethodType.POST)
+      .div().attrClass("form-group has-feedback")
+        .<Owner>dynamic((div, owner) -> partialInputField(div, "Name", "name", owner.getName()))
+        .<Owner>dynamic((div, owner) -> partialInputField(div, "Address", "address", owner.getAddress()))
+    ...
 ```
 
 Notice, the function `ownerTemplate` is in turn another fragment that receives a `Div` element.
@@ -351,14 +351,14 @@ public class Layout {
 To chain the call of fragments fluently we take advantage of the auxiliary HtmlFlow builder `of()` that let us chain a consumer of the last created element.
 Notice `.of(navbar::accept)` is equivalent to write in Java `.of(nav -> navbar.accept(nav))`.
 
-Once define the layout and considering the previous example of the `ownerTemplate` we may build
-a owner's view with:
+Once defined the layout and considering the previous example of the `ownerTemplate` we may build
+a owner view with:
 
 ```java
 public class OwnerView {
 
     static final HtmlView view = Layout
-        .view(Navbar::navbarFragment, CreateOrUpdateOwnerForm::template);
+        .view(Navbar::navbarFragment, OwnerView::ownerTemplate);
 ...
 }
 ```
