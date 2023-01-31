@@ -52,8 +52,8 @@ entries:
       url: features#asynchronous-html-views
       output: web
 
-    - title: Partial and Layout
-      url: features#partial-and-layout
+    - title: Layout and fragments
+      url: features#layout-and-partial-views-aka-fragments
       output: web
 
   - title: Version 3.x
