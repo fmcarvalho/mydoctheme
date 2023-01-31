@@ -310,6 +310,8 @@ static void ownerTemplate(Div<?> container) {
 
 Notice, the function `ownerTemplate` is in turn another fragment that receives a `Div` element.
 
+**Remember** when calling a fragment to use a `dynamic()` block to avoid storing it internally as a static HTML block and make it render whenever you call it with a model. Do not use the builder `of()` to include a dynamic fragment.
+
 This way of invoking a fragment is particularly useful when you need to use a smaller part (component) gathered together to produce a bigger template.
 This is the most common usage of partials or fragments.
 
